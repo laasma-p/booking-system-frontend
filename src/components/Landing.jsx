@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
 const Landing = () => {
+  const navigate = useNavigate();
+
   return (
     <div
       className="h-dvh bg-cover bg-center flex flex-col justify-center items-center"
@@ -14,12 +17,14 @@ const Landing = () => {
           <button
             type="button"
             className="bg-blue-700 dark:bg-blue-600 hover:bg-blue-800 dark:hover:bg-blue-700 text-gray-100 px-6 py-3 rounded-md md:text-lg lg:text-xl transition-all"
+            onClick={() => navigate("/login")}
           >
             Log In
           </button>
           <button
             type="button"
             className="bg-green-500 hover:bg-green-600 text-gray-100 px-6 py-3 rounded-md md:text-lg lg:text-xl transition-all"
+            onClick={() => navigate("/register")}
           >
             Register
           </button>
