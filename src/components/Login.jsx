@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const Login = ({ setLoggedIn }) => {
@@ -6,6 +6,8 @@ const Login = ({ setLoggedIn }) => {
     email: "",
     password: "",
   });
+
+  const navigate = useNavigate();
 
   const loginDataChangeHandler = (event) => {
     setLoginData({ ...loginData, [event.target.id]: event.target.value });
@@ -25,7 +27,7 @@ const Login = ({ setLoggedIn }) => {
 
       if (response.ok) {
         setLoggedIn(true);
-        console.log("Logged in successfully");
+        navigate("/bookings");
       }
     } catch (error) {
       console.error("Error logging in:", error.message);
