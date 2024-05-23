@@ -1,20 +1,22 @@
+import { NavLink } from "react-router-dom";
+
 const Navigation = () => {
   return (
     <header className="bg-blue-700 dark:bg-blue-600 transition-all">
       <nav className="p-4 flex justify-between items-center">
         <div>
-          <a
-            href="#"
+          <NavLink
+            to="/bookings"
             className="text-gray-950 hover:text-gray-100 mr-4 transition-all"
           >
             Bookings
-          </a>
-          <a
-            href="#"
+          </NavLink>
+          <NavLink
+            to="/book-a-time"
             className="text-gray-950 hover:text-gray-100 transition-all"
           >
             Book a time
-          </a>
+          </NavLink>
         </div>
         <div>
           <button className="text-gray-950 hover:text-gray-100 transition-all">
