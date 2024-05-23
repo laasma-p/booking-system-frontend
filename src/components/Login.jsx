@@ -25,7 +25,10 @@ const Login = ({ setLoggedIn }) => {
         body: JSON.stringify(loginData),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
+        localStorage.setItem("token", data.token);
         setLoggedIn(true);
         navigate("/bookings");
       }
