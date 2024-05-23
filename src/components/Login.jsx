@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-const Login = () => {
+const Login = ({ setLoggedIn }) => {
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -11,8 +11,25 @@ const Login = () => {
     setLoginData({ ...loginData, [event.target.id]: event.target.value });
   };
 
-  const loginHandler = (event) => {
+  const loginHandler = async (event) => {
     event.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginData),
+      });
+
+      if (response.ok) {
+        setLoggedIn(true);
+        console.log("Logged in successfully");
+      }
+    } catch (error) {
+      console.error("Error logging in:", error.message);
+    }
   };
 
   return (
