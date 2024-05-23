@@ -22,8 +22,20 @@ const Register = () => {
     });
   };
 
-  const registerDataHandler = (event) => {
+  const registerDataHandler = async (event) => {
     event.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:3000/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(registerData),
+      });
+    } catch (error) {
+      console.error("Error registering:", error.message);
+    }
   };
 
   return (
