@@ -46,6 +46,18 @@ const BookATimeForm = () => {
   return (
     <div className="p-6 max-w-lg bg-white rounded-md shadow-md space-y-4">
       <h1 className="text-3xl font-semibold text-gray-950 mb-6">Book a time</h1>
+      <div className="flex justify-between items-center mb-4">
+        <button className="p-2 bg-blue-500 text-gray-100 rounded-md">
+          Prev
+        </button>
+        <h2 className="text-xl font-semibold">
+          {currentMonth.toLocaleString("default", { month: "long" })}{" "}
+          {currentMonth.getFullYear()}
+        </h2>
+        <button className="p-2 bg-blue-500 text-gray-100 rounded-md">
+          Next
+        </button>
+      </div>
       <div className="grid grid-cols-7 gap-1">
         {daysOfTheWeek.map((day, index) => {
           return (
