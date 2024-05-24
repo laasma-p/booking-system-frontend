@@ -43,18 +43,34 @@ const BookATimeForm = () => {
     return days;
   };
 
+  const changeMonthHandler = (direction) => {
+    setCurrentMonth(
+      new Date(
+        currentMonth.getFullYear(),
+        currentMonth.getMonth() + direction,
+        1
+      )
+    );
+  };
+
   return (
     <div className="p-6 max-w-lg bg-white rounded-md shadow-md space-y-4">
       <h1 className="text-3xl font-semibold text-gray-950 mb-6">Book a time</h1>
       <div className="flex justify-between items-center mb-4">
-        <button className="p-2 bg-blue-500 text-gray-100 rounded-md">
+        <button
+          className="p-2 bg-blue-500 text-gray-100 rounded-md"
+          onClick={() => changeMonthHandler(-1)}
+        >
           Prev
         </button>
         <h2 className="text-xl font-semibold">
           {currentMonth.toLocaleString("default", { month: "long" })}{" "}
           {currentMonth.getFullYear()}
         </h2>
-        <button className="p-2 bg-blue-500 text-gray-100 rounded-md">
+        <button
+          className="p-2 bg-blue-500 text-gray-100 rounded-md"
+          onClick={() => changeMonthHandler(1)}
+        >
           Next
         </button>
       </div>
