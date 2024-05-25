@@ -71,19 +71,20 @@ const BookATimeForm = () => {
       );
     }
 
-    // const daysInLastWeek = 7 - (days.length % 7);
-    // if (daysInLastWeek < 7) {
-    //   for (let i = 1; i <= daysInLastWeek; i++) {
-    //     days.push(
-    //       <div
-    //         key={`next-${i}`}
-    //         className="p-2 border h-16 bg-gray-100 text-gray-400 cursor-not-allowed"
-    //       >
-    //         {i}
-    //       </div>
-    //     );
-    //   }
-    // }
+    const daysInLastWeek = 7 - (days.length % 7);
+
+    if (daysInLastWeek < 7) {
+      for (let i = 1; i <= daysInLastWeek; i++) {
+        days.push(
+          <div
+            key={`next-${i}`}
+            className="p-2 border h-16 bg-gray-100 text-gray-400 cursor-not-allowed"
+          >
+            {i}
+          </div>
+        );
+      }
+    }
 
     return days;
   };
