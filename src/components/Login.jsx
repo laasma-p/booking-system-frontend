@@ -29,6 +29,7 @@ const Login = ({ setLoggedIn }) => {
 
       if (response.ok) {
         localStorage.setItem("token", data.token);
+        localStorage.setItem("userId", data.userId);
         setLoggedIn(true);
         navigate("/bookings");
       }
