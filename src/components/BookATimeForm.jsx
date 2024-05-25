@@ -8,16 +8,47 @@ const BookATimeForm = () => {
   const renderCalendarDays = () => {
     const days = [];
 
+    const startDate = new Date(
+      currentMonth.getFullYear(),
+      currentMonth.getMonth(),
+      1
+    );
+
     const endDate = new Date(
       currentMonth.getFullYear(),
       currentMonth.getMonth() + 1,
       0
     );
 
+    const startDay = startDate.getDay() === 0 ? 6 : startDate.getDay() - 1;
+
     const today = new Date();
     const todaysYear = today.getFullYear();
     const todaysMonth = today.getMonth();
     const todaysDate = today.getDate();
+
+    const prevMonthEndDate = new Date(
+      currentMonth.getFullYear(),
+      currentMonth.getMonth(),
+      0
+    ).getDate();
+
+    for (let i = startDay; i > 0; i--) {
+      const date = new Date(
+        currentMonth.getFullYear(),
+        currentMonth.getMonth(),
+        -i + 1
+      );
+
+      days.push(
+        <div
+          key={`prev-${i}`}
+          className="p-2 border h-16 bg-gray-100 text-gray-400 cursor-not-allowed"
+        >
+          {prevMonthEndDate - i + 1}
+        </div>
+      );
+    }
 
     for (let i = 1; i <= endDate.getDate(); i++) {
       const date = new Date(
@@ -39,6 +70,20 @@ const BookATimeForm = () => {
         </div>
       );
     }
+
+    // const daysInLastWeek = 7 - (days.length % 7);
+    // if (daysInLastWeek < 7) {
+    //   for (let i = 1; i <= daysInLastWeek; i++) {
+    //     days.push(
+    //       <div
+    //         key={`next-${i}`}
+    //         className="p-2 border h-16 bg-gray-100 text-gray-400 cursor-not-allowed"
+    //       >
+    //         {i}
+    //       </div>
+    //     );
+    //   }
+    // }
 
     return days;
   };
