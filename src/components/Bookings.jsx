@@ -1,5 +1,5 @@
-const Booking = () => {
+const Bookings = () => {
   return <div>Bookings are displayed here.</div>;
 };
 
-export default Booking;
+export default Bookings;
