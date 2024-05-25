@@ -3,7 +3,12 @@ import { useState } from "react";
 const daysOfTheWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 const BookATimeForm = () => {
+  const [selectedDate, setSelectedDate] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(new Date());
+
+  const dateClickHandler = (date) => {
+    setSelectedDate(date);
+  };
 
   const renderCalendarDays = () => {
     const days = [];
@@ -34,12 +39,6 @@ const BookATimeForm = () => {
     ).getDate();
 
     for (let i = startDay; i > 0; i--) {
-      const date = new Date(
-        currentMonth.getFullYear(),
-        currentMonth.getMonth(),
-        -i + 1
-      );
-
       days.push(
         <div
           key={`prev-${i}`}
@@ -57,14 +56,20 @@ const BookATimeForm = () => {
         i
       );
 
+      const dateString = date.toDateString();
       const isPastDay = date < new Date(todaysYear, todaysMonth, todaysDate);
 
       days.push(
         <div
           key={i}
-          className={`p-2 border h-16 ${
-            isPastDay ? "bg-gray-100" : "bg-white text-gray-950"
+          className={`p-2 border h-16 cursor-pointer ${
+            selectedDate === dateString
+              ? "bg-blue-500 text-gray-100"
+              : isPastDay
+              ? "bg-gray-100 cursor-not-allowed"
+              : "bg-white text-gray-950"
           }`}
+          onClick={() => !isPastDay && dateClickHandler(dateString)}
         >
           {i}
         </div>
@@ -130,6 +135,7 @@ const BookATimeForm = () => {
         })}
         {renderCalendarDays()}
       </div>
+      {selectedDate && <p>Information about the test will be here</p>}
     </div>
   );
 };
