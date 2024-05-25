@@ -6,17 +6,20 @@ import Navigation from "./components/Navigation";
 import Bookings from "./components/Bookings";
 import BookATimeForm from "./components/BookATimeForm";
 import { Routes, Route } from "react-router-dom";
+import { useState } from "react";
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+
   return (
     <>
-      <Navigation />
+      {loggedIn && <Navigation />}
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
-        <Route path="bookings" element={<Bookings />} />
-        <Route path="book-a-time" element={<BookATimeForm />} />
+        <Route path="/login" element={<Login setLoggedIn={setLoggedIn} />} />
+        <Route path="/register" element={<Register />} />
+        {loggedIn && <Route path="/bookings" element={<Bookings />} />}
+        {loggedIn && <Route path="/book-a-time" element={<BookATimeForm />} />}
       </Routes>
     </>
   );
