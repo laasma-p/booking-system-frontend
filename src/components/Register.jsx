@@ -120,7 +120,7 @@ const Register = () => {
     event.preventDefault();
     const currentErrors = validateAllFields();
 
-    if (Object.keys(currentErrors.length > 0)) {
+    if (Object.keys(currentErrors).length > 0) {
       return;
     }
 
