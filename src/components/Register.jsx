@@ -14,6 +14,8 @@ const Register = () => {
     city: "",
     post_code: "",
   });
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const registerDataChangeHandler = (event) => {
     setRegisterData({
@@ -33,6 +35,14 @@ const Register = () => {
         },
         body: JSON.stringify(registerData),
       });
+
+      if (!response.ok) {
+        setErrorMessage("Registration failed.");
+        setSuccessMessage("");
+      } else {
+        setSuccessMessage("You have successfully registered.");
+        setErrorMessage("");
+      }
     } catch (error) {
       console.error("Error registering:", error.message);
     }
@@ -47,6 +57,16 @@ const Register = () => {
         className="w-5/6 max-w-lg bg-white dark:bg-gray-800 p-6 md:p-8 rounded-md shadow-md"
         onSubmit={registerDataHandler}
       >
+        {successMessage && (
+          <p className="my-2 text-lg text-green-500 dark:text-green-400">
+            {successMessage}
+          </p>
+        )}
+        {errorMessage && (
+          <p className="my-2 text-lg text-red-500 dark:text-red-400">
+            {errorMessage}
+          </p>
+        )}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex flex-col space-y-2">
             <label
@@ -193,6 +213,7 @@ const Register = () => {
             />
           </div>
         </div>
+
         <button
           type="submit"
           className="w-full bg-blue-700 dark:bg-blue-600 hover:bg-blue-800 dark:hover:bg-blue-700 text-gray-100 mt-6 py-3 rounded-md md:text-lg lg:text-xl transition-all"
