@@ -26,14 +26,46 @@ const Register = () => {
       case "last_name":
       case "address":
       case "city":
-      case "birthday":
-      case "email":
-      case "phone_number":
-      case "password":
-      case "repeat_password":
-      case "post_code":
         if (!value) {
           error = `${field.replace("_", " ")} is required.`;
+        }
+        break;
+      case "birthday":
+        if (!value) {
+          error = "Birthday is required.";
+        }
+        break;
+      case "email":
+        if (!value) {
+          error = "Email is required.";
+        } else if (!/\S+@\S+\.\S+/.test(value)) {
+          error = "Email is invalid.";
+        }
+        break;
+      case "phone_number":
+        if (!value) {
+          error = "Phone number is required.";
+        }
+        break;
+      case "password":
+        if (!value) {
+          error = "Password is required.";
+        } else if (value.length < 8) {
+          error = "Password must be at least 8 characters.";
+        }
+        break;
+      case "repeat_password":
+        if (!value) {
+          error = "Repeat password.";
+        } else if (value !== registerData.password) {
+          error = "Passwords do not match.";
+        }
+        break;
+      case "post_code":
+        if (!value) {
+          error = "Post code is required.";
+        } else if (!/^\d{4}$/.test(value)) {
+          error = "Post code is invalid.";
         }
         break;
       default:
@@ -122,17 +154,26 @@ const Register = () => {
           {[
             { id: "first_name", label: "First Name" },
             { id: "last_name", label: "Last Name" },
-            { id: "birthday", label: "Birthday" },
-            { id: "email", label: "E-mail" },
+            { id: "birthday", label: "Birthday", type: "date", span: 2 },
+            { id: "email", label: "E-mail", type: "email" },
             { id: "phone_number", label: "Phone Number" },
-            { id: "password", label: "Password" },
-            { id: "repeat_password", label: "Repeat Password" },
+            { id: "password", label: "Password", type: "password" },
+            {
+              id: "repeat_password",
+              label: "Repeat Password",
+              type: "password",
+            },
             { id: "address", label: "Address" },
             { id: "city", label: "City" },
             { id: "post_code", label: "Post Code" },
           ].map((field) => {
             return (
-              <div key={field.id} className="flex flex-col space-y-2">
+              <div
+                key={field.id}
+                className={`flex flex-col space-y-2 ${
+                  field.span ? `md:col-span-${field.span}` : ""
+                }`}
+              >
                 <label
                   htmlFor={field.id}
                   className="text-gray-950 dark:text-gray-100"
@@ -140,10 +181,13 @@ const Register = () => {
                   {field.label}
                 </label>
                 <input
+                  type={field.type || "text"}
                   id={field.id}
                   value={registerData[field.id]}
                   onChange={registerDataChangeHandler}
-                  className="text-gray-950 dark:text-gray-100 dark:bg-gray-700 px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className={`text-gray-950 dark:text-gray-100 dark:bg-gray-700 px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 dark:focus:ring-blue-400 ${
+                    errors[field.id] ? "border-red-400 dark:border-red-500" : ""
+                  }`}
                 />
                 {errors[field.id] && (
                   <span className="text-red-500 dark:text-red-400">
@@ -154,7 +198,6 @@ const Register = () => {
             );
           })}
         </div>
-
         <button
           type="submit"
           className="w-full bg-blue-700 dark:bg-blue-600 hover:bg-blue-800 dark:hover:bg-blue-700 text-gray-100 mt-6 py-3 rounded-md md:text-lg lg:text-xl transition-all"
