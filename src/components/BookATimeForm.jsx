@@ -5,9 +5,25 @@ const daysOfTheWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const BookATimeForm = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [bookings, setBookings] = useState([]);
 
-  const dateClickHandler = (date) => {
+  const dateClickHandler = async (date) => {
     setSelectedDate(date);
+
+    try {
+      const response = await fetch(
+        `http://localhost:3000/time-slots?date=${date}`
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch time slots to book");
+      }
+
+      const data = await response.json();
+      setBookings(data);
+    } catch (error) {
+      console.error("Error fetching time slots", error);
+    }
   };
 
   const renderCalendarDays = () => {
@@ -135,7 +151,19 @@ const BookATimeForm = () => {
         })}
         {renderCalendarDays()}
       </div>
-      {selectedDate && <p>Information about the test will be here</p>}
+      {selectedDate && (
+        <>
+          {bookings.map((booking) => {
+            return (
+              <div key={booking.id}>
+                <p>{booking.booking_name}</p>
+                <p>Language: {booking.booking_language}</p>
+                <p>Time: {booking.time}</p>
+              </div>
+            );
+          })}
+        </>
+      )}
     </div>
   );
 };
