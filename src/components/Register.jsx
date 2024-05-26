@@ -14,18 +14,69 @@ const Register = () => {
     city: "",
     post_code: "",
   });
+  const [touchedFields, setTouchedFields] = useState({});
+  const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  const validateField = (field, value) => {
+    let error;
+    switch (field) {
+      case "first_name":
+      case "last_name":
+      case "address":
+      case "city":
+      case "birthday":
+      case "email":
+      case "phone_number":
+      case "password":
+      case "repeat_password":
+      case "post_code":
+        if (!value) {
+          error = `${field.replace("_", " ")} is required.`;
+        }
+        break;
+      default:
+        break;
+    }
+    return error;
+  };
+
+  const validateAllFields = () => {
+    const newErrors = {};
+    for (const field in registerData) {
+      const error = validateField(field, registerData[field]);
+      if (error) {
+        newErrors[field] = error;
+      }
+    }
+    setErrors(newErrors);
+    return newErrors;
+  };
+
   const registerDataChangeHandler = (event) => {
+    const { id, value } = event.target;
     setRegisterData({
       ...registerData,
-      [event.target.id]: event.target.value,
+      [id]: value,
     });
+
+    if (touchedFields[id]) {
+      const error = validateField(id, value);
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [id]: error,
+      }));
+    }
   };
 
   const registerDataHandler = async (event) => {
     event.preventDefault();
+    const currentErrors = validateAllFields();
+
+    if (Object.keys(currentErrors.length > 0)) {
+      return;
+    }
 
     try {
       const response = await fetch("http://localhost:3000/register", {
@@ -68,150 +119,40 @@ const Register = () => {
           </p>
         )}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="flex flex-col space-y-2">
-            <label
-              htmlFor="first_name"
-              className="text-gray-950 dark:text-gray-100"
-            >
-              First Name
-            </label>
-            <input
-              type="text"
-              id="first_name"
-              value={registerData.first_name}
-              onChange={registerDataChangeHandler}
-              className="text-gray-950 dark:text-gray-100 dark:bg-gray-700 px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-          </div>
-          <div className="flex flex-col space-y-2">
-            <label
-              htmlFor="last_name"
-              className="text-gray-950 dark:text-gray-100"
-            >
-              Last Name
-            </label>
-            <input
-              type="text"
-              id="last_name"
-              value={registerData.last_name}
-              onChange={registerDataChangeHandler}
-              className="text-gray-950 dark:text-gray-100 dark:bg-gray-700 px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-          </div>
-          <div className="flex flex-col space-y-2 md:col-span-2">
-            <label
-              htmlFor="birthday"
-              className="text-gray-950 dark:text-gray-100"
-            >
-              Birthday
-            </label>
-            <input
-              type="date"
-              id="birthday"
-              value={registerData.birthday}
-              onChange={registerDataChangeHandler}
-              className="text-gray-950 dark:text-gray-100 dark:bg-gray-700 px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-          </div>
-          <div className="flex flex-col space-y-2">
-            <label htmlFor="email" className="text-gray-950 dark:text-gray-100">
-              E-mail
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={registerData.email}
-              onChange={registerDataChangeHandler}
-              className="text-gray-950 dark:text-gray-100 dark:bg-gray-700 px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-          </div>
-          <div className="flex flex-col space-y-2">
-            <label
-              htmlFor="phone_number"
-              className="text-gray-950 dark:text-gray-100"
-            >
-              Phone Number
-            </label>
-            <input
-              type="text"
-              id="phone_number"
-              value={registerData.phone_number}
-              onChange={registerDataChangeHandler}
-              className="text-gray-950 dark:text-gray-100 dark:bg-gray-700 px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-          </div>
-          <div className="flex flex-col space-y-2">
-            <label
-              htmlFor="password"
-              className="text-gray-950 dark:text-gray-100"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={registerData.password}
-              onChange={registerDataChangeHandler}
-              className="text-gray-950 dark:text-gray-100 dark:bg-gray-700 px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-          </div>
-          <div className="flex flex-col space-y-2">
-            <label
-              htmlFor="repeat_password"
-              className="text-gray-950 dark:text-gray-100"
-            >
-              Repeat Password
-            </label>
-            <input
-              type="password"
-              id="repeat_password"
-              value={registerData.repeat_password}
-              onChange={registerDataChangeHandler}
-              className="text-gray-950 dark:text-gray-100 dark:bg-gray-700 px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-          </div>
-          <div className="flex flex-col space-y-2">
-            <label
-              htmlFor="address"
-              className="text-gray-950 dark:text-gray-100"
-            >
-              Address
-            </label>
-            <input
-              type="text"
-              id="address"
-              value={registerData.address}
-              onChange={registerDataChangeHandler}
-              className="text-gray-950 dark:text-gray-100 dark:bg-gray-700 px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-          </div>
-          <div className="flex flex-col space-y-2">
-            <label htmlFor="city" className="text-gray-950 dark:text-gray-100">
-              City
-            </label>
-            <input
-              type="text"
-              id="city"
-              value={registerData.city}
-              onChange={registerDataChangeHandler}
-              className="text-gray-950 dark:text-gray-100 dark:bg-gray-700 px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-          </div>
-          <div className="flex flex-col space-y-2">
-            <label
-              htmlFor="post_code"
-              className="text-gray-950 dark:text-gray-100"
-            >
-              Post Code
-            </label>
-            <input
-              type="text"
-              id="post_code"
-              value={registerData.post_code}
-              onChange={registerDataChangeHandler}
-              className="text-gray-950 dark:text-gray-100 dark:bg-gray-700 px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-          </div>
+          {[
+            { id: "first_name", label: "First Name" },
+            { id: "last_name", label: "Last Name" },
+            { id: "birthday", label: "Birthday" },
+            { id: "email", label: "E-mail" },
+            { id: "phone_number", label: "Phone Number" },
+            { id: "password", label: "Password" },
+            { id: "repeat_password", label: "Repeat Password" },
+            { id: "address", label: "Address" },
+            { id: "city", label: "City" },
+            { id: "post_code", label: "Post Code" },
+          ].map((field) => {
+            return (
+              <div key={field.id} className="flex flex-col space-y-2">
+                <label
+                  htmlFor={field.id}
+                  className="text-gray-950 dark:text-gray-100"
+                >
+                  {field.label}
+                </label>
+                <input
+                  id={field.id}
+                  value={registerData[field.id]}
+                  onChange={registerDataChangeHandler}
+                  className="text-gray-950 dark:text-gray-100 dark:bg-gray-700 px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                />
+                {errors[field.id] && (
+                  <span className="text-red-500 dark:text-red-400">
+                    {errors[field.id]}
+                  </span>
+                )}
+              </div>
+            );
+          })}
         </div>
 
         <button
