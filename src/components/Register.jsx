@@ -168,7 +168,7 @@ const Register = () => {
           {[
             { id: "first_name", label: "First Name" },
             { id: "last_name", label: "Last Name" },
-            { id: "birthday", label: "Birthday", type: "date", span: 2 },
+            { id: "birthday", label: "Birthday", type: "date" },
             { id: "email", label: "E-mail", type: "email" },
             { id: "phone_number", label: "Phone Number" },
             { id: "password", label: "Password", type: "password" },
@@ -185,7 +185,7 @@ const Register = () => {
               <div
                 key={field.id}
                 className={`flex flex-col space-y-2 ${
-                  field.span ? `md:col-span-${field.span}` : ""
+                  field.id === "birthday" ? "md:col-span-2" : ""
                 }`}
               >
                 <label
