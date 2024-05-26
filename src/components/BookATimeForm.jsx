@@ -159,6 +159,7 @@ const BookATimeForm = () => {
                 <p>{booking.booking_name}</p>
                 <p>Language: {booking.booking_language}</p>
                 <p>Time: {booking.time}</p>
+                <p>Available spots: {booking.available_spots}</p>
               </div>
             );
           })}
