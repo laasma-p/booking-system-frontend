@@ -32,7 +32,7 @@ const Login = ({ setLoggedIn }) => {
         localStorage.setItem("token", data.token);
         localStorage.setItem("userId", data.userId);
         setLoggedIn(true);
-        navigate("/bookings");
+        navigate("/booking");
       }
     } catch (error) {
       console.error("Error logging in:", error.message);
