@@ -40,6 +40,39 @@ function App() {
     }
   }, [navigate]);
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+    const tokenExpiryTime = localStorage.getItem("tokenExpiryTime");
+
+    setLoggedIn(token !== null && userId !== null && tokenExpiryTime !== null);
+
+    const storageChangeHandler = () => {
+      const updatedToken = localStorage.getItem("token");
+      const updatedUserId = localStorage.getItem("userId");
+      const updatedTokenExpiryTime = localStorage.getItem("tokenExpiryTime");
+      setLoggedIn(
+        updatedToken !== null &&
+          updatedUserId !== null &&
+          updatedTokenExpiryTime !== null
+      );
+
+      if (
+        updatedToken === null ||
+        updatedUserId === null ||
+        updatedTokenExpiryTime === null
+      ) {
+        setLoggedIn(false);
+        navigate("/");
+      }
+    };
+
+    window.addEventListener("storage", storageChangeHandler);
+    return () => {
+      window.removeEventListener("storage", storageChangeHandler);
+    };
+  }, [navigate]);
+
   return (
     <>
       {loggedIn && <Navigation setLoggedIn={setLoggedIn} />}
