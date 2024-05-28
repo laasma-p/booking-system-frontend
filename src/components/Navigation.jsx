@@ -23,13 +23,21 @@ const Navigation = ({ setLoggedIn }) => {
           <div className="w-10/12 border-red-200 text-lg space-x-6">
             <NavLink
               to="/booking"
-              className="text-gray-950 hover:text-gray-100 transition-all"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-gray-100"
+                  : "text-gray-950 hover:text-gray-100 transition-all"
+              }
             >
               Booking
             </NavLink>
             <NavLink
               to="/book-a-time"
-              className="text-gray-950 hover:text-gray-100 transition-all"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-gray-100"
+                  : "text-gray-950 hover:text-gray-100 transition-all"
+              }
             >
               Book a time
             </NavLink>
