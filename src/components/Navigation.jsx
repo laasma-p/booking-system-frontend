@@ -1,5 +1,6 @@
 import logo from "../assets/logo.png";
 import { NavLink, useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const Navigation = ({ setLoggedIn }) => {
   const navigate = useNavigate();
@@ -44,6 +45,10 @@ const Navigation = ({ setLoggedIn }) => {
       </nav>
     </header>
   );
+};
+
+Navigation.propTypes = {
+  setLoggedIn: PropTypes.func.isRequired,
 };
 
 export default Navigation;
