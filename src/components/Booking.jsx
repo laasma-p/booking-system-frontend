@@ -4,6 +4,7 @@ const Booking = () => {
   const [booking, setBooking] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -59,10 +60,13 @@ const Booking = () => {
           "Failed to cancel the booked time slot. Try again later."
         );
       }
+
+      setIsModalOpen(false);
     } catch (error) {
       console.error("Error cancelling booking:", error);
       setErrorMessage("Failed to cancel booking.");
       setSuccessMessage("");
+      setIsModalOpen(false);
     }
   };
 
@@ -88,13 +92,44 @@ const Booking = () => {
           <button
             type="button"
             className="bg-red-500 hover:bg-red-600 text-gray-100 mt-2 py-2 px-4 rounded-md transition-all"
-            onClick={() => cancelBookingHandler(true)}
+            onClick={() => setIsModalOpen(true)}
           >
             Cancel
           </button>
         </div>
       ) : (
         <p className="pl-4">No bookings have been made.</p>
+      )}
+
+      {isModalOpen && (
+        <div
+          className="fixed inset-0 bg-gray-950 bg-opacity-50 flex items-center justify-center"
+          onClick={() => setIsModalOpen(false)}
+        >
+          <div
+            className="bg-white p-6 rounded-md shadow-md"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <h2 className="text-xl font-semibold mb-4">
+              Confirm booking cancellation
+            </h2>
+            <p>Are you sure you want to cancel the booking?</p>
+            <div className="mt-4 flex justify-end">
+              <button
+                className="bg-gray-300 hover:bg-gray-400 text-gray-950 py-2 px-4 rounded-md mr-2 transition-all"
+                onClick={() => setIsModalOpen(false)}
+              >
+                No
+              </button>
+              <button
+                className="bg-red-500 hover:bg-red-600 text-gray-100 py-2 px-4 rounded-md transition-all"
+                onClick={cancelBookingHandler}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </>
   );
