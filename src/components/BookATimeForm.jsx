@@ -6,6 +6,7 @@ const BookATimeForm = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [bookings, setBookings] = useState([]);
+  const [selectedBooking, setSelectedBooking] = useState(null);
 
   const dateClickHandler = async (date) => {
     setSelectedDate(date);
@@ -120,6 +121,10 @@ const BookATimeForm = () => {
     );
   };
 
+  const selectingSlotHandler = (bookingId) => {
+    setSelectedBooking(bookingId);
+  };
+
   return (
     <div className="p-6 max-w-lg bg-white rounded-md shadow-md space-y-4">
       <h1 className="text-3xl font-semibold text-gray-950 mb-6">Book a time</h1>
@@ -155,11 +160,20 @@ const BookATimeForm = () => {
         <>
           {bookings.map((booking) => {
             return (
-              <div key={booking.id}>
+              <div
+                key={booking.id}
+                className={`${
+                  selectedBooking === booking.id ? "bg-blue-100" : ""
+                }`}
+                onClick={() => selectingSlotHandler(booking.id)}
+              >
                 <p>{booking.booking_name}</p>
                 <p>Language: {booking.booking_language}</p>
                 <p>Time: {booking.time}</p>
                 <p>Available spots: {booking.available_spots}</p>
+                {selectedBooking === booking.id && (
+                  <button type="button">Book</button>
+                )}
               </div>
             );
           })}
