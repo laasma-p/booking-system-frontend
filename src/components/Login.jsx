@@ -31,8 +31,18 @@ const Login = ({ setLoggedIn }) => {
       if (response.ok) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("userId", data.userId);
+        const tokenExpiryTime = new Date().getTime() + 3600 * 1000;
+        localStorage.setItem("tokenExpiryTime", tokenExpiryTime);
         setLoggedIn(true);
         navigate("/booking");
+
+        setTimeout(() => {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userId");
+          localStorage.removeItem("tokenExpiryTime");
+          setLoggedIn(false);
+          navigate("/");
+        }, 3600 * 1000);
       }
     } catch (error) {
       console.error("Error logging in:", error.message);

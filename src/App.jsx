@@ -5,11 +5,40 @@ import Login from "./components/Login";
 import Navigation from "./components/Navigation";
 import Booking from "./components/Booking";
 import BookATimeForm from "./components/BookATimeForm";
-import { Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const tokenExpiryTime = localStorage.getItem("tokenExpiryTime");
+
+    if (token && tokenExpiryTime) {
+      const expiryTime = parseInt(tokenExpiryTime, 10);
+      const currentTime = new Date().getTime();
+
+      if (currentTime >= expiryTime) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("tokenExpiryTime");
+        setLoggedIn(false);
+        navigate("/");
+      } else {
+        setLoggedIn(true);
+        const remainingTime = expiryTime - currentTime;
+        setTimeout(() => {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userId");
+          localStorage.removeItem("tokenExpiryTime");
+          setLoggedIn(false);
+          navigate("/");
+        }, remainingTime);
+      }
+    }
+  }, [navigate]);
 
   return (
     <>

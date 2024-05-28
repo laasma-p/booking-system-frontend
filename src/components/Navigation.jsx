@@ -8,6 +8,7 @@ const Navigation = ({ setLoggedIn }) => {
   const logoutHandler = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
+    localStorage.removeItem("tokenExpiryTime");
     setLoggedIn(false);
     navigate("/");
   };
