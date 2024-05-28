@@ -11,10 +11,10 @@ const Navigation = () => {
         <div className="flex w-full">
           <div className="w-10/12 border-red-200 text-lg space-x-6">
             <NavLink
-              to="/bookings"
+              to="/booking"
               className="text-gray-950 hover:text-gray-100 transition-all"
             >
-              Bookings
+              Booking
             </NavLink>
             <NavLink
               to="/book-a-time"
