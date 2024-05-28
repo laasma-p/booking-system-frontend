@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const daysOfTheWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -7,6 +7,17 @@ const BookATimeForm = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [bookings, setBookings] = useState([]);
   const [selectedBooking, setSelectedBooking] = useState(null);
+  const [bookingMessage, setBookingMessage] = useState("");
+  const [isBooked, setIsBooked] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setBookingMessage("");
+      setIsBooked(false);
+    }, 3000);
+
+    return () => clearTimeout(timeout);
+  }, [bookingMessage, isBooked]);
 
   const dateClickHandler = async (date) => {
     setSelectedDate(date);
@@ -24,6 +35,33 @@ const BookATimeForm = () => {
       setBookings(data);
     } catch (error) {
       console.error("Error fetching time slots", error);
+    }
+  };
+
+  const bookASlotHandler = async (bookingId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch("http://localhost:3000/bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+
+        body: JSON.stringify({ bookingId }),
+      });
+
+      if (response.ok) {
+        setBookingMessage("Booking has been successfully made.");
+        setIsBooked(true);
+      } else {
+        setBookingMessage("Error booking the desired time slot.");
+        setIsBooked(false);
+      }
+    } catch (error) {
+      console.error("Error booking a time slot:", error);
+      setBookingMessage("Error booking the desired time slot.");
+      setIsBooked(false);
     }
   };
 
@@ -126,71 +164,83 @@ const BookATimeForm = () => {
   };
 
   return (
-    <div className="w-full min-h-dvh px-4 flex flex-col md:flex-row justify-center md:justify-normal mx-auto md:mx-0 gap-4 bg-gray-100">
-      <div className="h-fit md:w-1/2 mt-4 p-6 lg:max-w-lg bg-white rounded-md shadow-md space-y-4">
-        <h1 className="text-3xl font-semibold text-gray-950 mb-6">
-          Book a time
-        </h1>
-        <div className="flex justify-between items-center mb-4">
-          <button
-            className="p-2 bg-blue-500 hover:bg-blue-600 text-gray-100 rounded-md transition-all"
-            onClick={() => changeMonthHandler(-1)}
-          >
-            Prev
-          </button>
-          <h2 className="text-xl font-semibold">
-            {currentMonth.toLocaleString("default", { month: "long" })}{" "}
-            {currentMonth.getFullYear()}
-          </h2>
-          <button
-            className="p-2 bg-blue-500 hover:bg-blue-600 text-gray-100 rounded-md transition-all"
-            onClick={() => changeMonthHandler(1)}
-          >
-            Next
-          </button>
+    <>
+      {bookingMessage && (
+        <div
+          className={`p-2 ${
+            isBooked ? "bg-green-400 text-green-950" : "bg-red-400 text-red-950"
+          }`}
+        >
+          {bookingMessage}
         </div>
-        <div className="grid grid-cols-7 gap-1">
-          {daysOfTheWeek.map((day, index) => {
-            return (
-              <div key={index} className="p-2 border h-16 bg-gray-200">
-                {day}
-              </div>
-            );
-          })}
-          {renderCalendarDays()}
-        </div>
-      </div>
-      <div className="md:w-1/2 mt-4 lg:max-w-lg bg-white h-fit">
-        {selectedDate && (
-          <div className="w-full">
-            {bookings.map((booking) => {
+      )}
+      <div className="w-full min-h-dvh px-4 flex flex-col md:flex-row justify-center md:justify-normal mx-auto md:mx-0 gap-4 bg-gray-100">
+        <div className="h-fit md:w-1/2 mt-4 p-6 lg:max-w-lg bg-white rounded-md shadow-md space-y-4">
+          <h1 className="text-3xl font-semibold text-gray-950 mb-6">
+            Book a time
+          </h1>
+          <div className="flex justify-between items-center mb-4">
+            <button
+              className="p-2 bg-blue-500 hover:bg-blue-600 text-gray-100 rounded-md transition-all"
+              onClick={() => changeMonthHandler(-1)}
+            >
+              Prev
+            </button>
+            <h2 className="text-xl font-semibold">
+              {currentMonth.toLocaleString("default", { month: "long" })}{" "}
+              {currentMonth.getFullYear()}
+            </h2>
+            <button
+              className="p-2 bg-blue-500 hover:bg-blue-600 text-gray-100 rounded-md transition-all"
+              onClick={() => changeMonthHandler(1)}
+            >
+              Next
+            </button>
+          </div>
+          <div className="grid grid-cols-7 gap-1">
+            {daysOfTheWeek.map((day, index) => {
               return (
-                <div
-                  key={booking.id}
-                  className={`border rounded-md m-5 p-4 mb-4 cursor-pointer transition-all ${
-                    selectedBooking === booking.id ? "bg-gray-200" : ""
-                  }`}
-                  onClick={() => selectingSlotHandler(booking.id)}
-                >
-                  <p className="font-semibold">{booking.booking_name}</p>
-                  <p>Language: {booking.booking_language}</p>
-                  <p>Time: {booking.time}</p>
-                  <p>Available spots: {booking.available_spots}</p>
-                  {selectedBooking === booking.id && (
-                    <button
-                      type="button"
-                      className="bg-green-500 hover:bg-green-600 text-gray-100 mt-2 py-2 px-4 rounded-md transition-all"
-                    >
-                      Book
-                    </button>
-                  )}
+                <div key={index} className="p-2 border h-16 bg-gray-200">
+                  {day}
                 </div>
               );
             })}
+            {renderCalendarDays()}
           </div>
-        )}
+        </div>
+        <div className="md:w-1/2 mt-4 lg:max-w-lg bg-white h-fit">
+          {selectedDate && (
+            <div className="w-full">
+              {bookings.map((booking) => {
+                return (
+                  <div
+                    key={booking.id}
+                    className={`border rounded-md m-5 p-4 mb-4 cursor-pointer transition-all ${
+                      selectedBooking === booking.id ? "bg-gray-200" : ""
+                    }`}
+                    onClick={() => selectingSlotHandler(booking.id)}
+                  >
+                    <p className="font-semibold">{booking.booking_name}</p>
+                    <p>Language: {booking.booking_language}</p>
+                    <p>Time: {booking.time}</p>
+                    <p>Available spots: {booking.available_spots}</p>
+                    {selectedBooking === booking.id && (
+                      <button
+                        type="button"
+                        className="bg-green-500 hover:bg-green-600 text-gray-100 mt-2 py-2 px-4 rounded-md transition-all"
+                        onClick={() => bookASlotHandler(booking.id)}
+                      >
+                        Book
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
