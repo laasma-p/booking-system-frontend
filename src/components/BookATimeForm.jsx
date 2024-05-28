@@ -41,7 +41,7 @@ const BookATimeForm = () => {
   const bookASlotHandler = async (bookingId) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:3000/bookings", {
+      const response = await fetch("http://localhost:3000/book-a-time", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
