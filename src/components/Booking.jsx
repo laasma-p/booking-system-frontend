@@ -20,7 +20,7 @@ const Booking = () => {
           setBooking(null);
         }
       } catch (error) {
-        console.error("Error fetching booking", error);
+        console.error("Error fetching booking:", error);
       }
     };
 
@@ -34,7 +34,7 @@ const Booking = () => {
       </h1>
       {booking ? (
         <div
-          key="1"
+          key={booking.id}
           className="border max-w-lg rounded-md mx-4 p-4 transition-all"
         >
           <p className="font-semibold">Booking Name: {booking.booking_name}</p>
