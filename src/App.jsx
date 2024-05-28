@@ -13,7 +13,7 @@ function App() {
 
   return (
     <>
-      {loggedIn && <Navigation />}
+      {loggedIn && <Navigation setLoggedIn={setLoggedIn} />}
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login setLoggedIn={setLoggedIn} />} />

@@ -1,12 +1,21 @@
 import logo from "../assets/logo.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
-const Navigation = () => {
+const Navigation = ({ setLoggedIn }) => {
+  const navigate = useNavigate();
+
+  const logoutHandler = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    setLoggedIn(false);
+    navigate("/");
+  };
+
   return (
     <header className="w-full bg-blue-700 dark:bg-blue-600 flex transition-all">
       <nav className="w-full mx-auto p-2 px-2 flex items-center">
         <div className="w-16 h-16 flex justify-center items-center ml-2 mr-4">
-          <img src={logo} />
+          <img src={logo} alt="Logo" />
         </div>
         <div className="flex w-full">
           <div className="w-10/12 border-red-200 text-lg space-x-6">
@@ -24,7 +33,10 @@ const Navigation = () => {
             </NavLink>
           </div>
           <div className="flex w-2/12 justify-end mr-2">
-            <button className="text-gray-950 text-lg hover:text-gray-100 transition-all">
+            <button
+              className="text-gray-950 text-lg hover:text-gray-100 transition-all"
+              onClick={logoutHandler}
+            >
               Log out
             </button>
           </div>
