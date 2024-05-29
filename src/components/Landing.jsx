@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+
 const Landing = () => {
   const navigate = useNavigate();
 
@@ -6,7 +7,8 @@ const Landing = () => {
     <div
       className="h-dvh bg-cover bg-center flex flex-col justify-center items-center"
       style={{
-        backgroundImage: "url('https://source.unsplash.com/1600x900/?driving')",
+        backgroundImage:
+          "url('https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDF8fGRyaXZpbmclMjB0ZXN0fGVufDB8fHx8MTYyODQ4MTYwNg&ixlib=rb-1.2.1&q=80&w=1080')",
       }}
     >
       <div className="mx-4 bg-gray-100 dark:bg-gray-950 bg-opacity-50 dark:bg-opacity-50 p-4 md:p-8 rounded-md shadow-md">
