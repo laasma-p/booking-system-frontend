@@ -146,12 +146,12 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-dvh pt-3 pb-4 lg:p-8 flex items-center flex-col justify-center bg-gray-100 dark:bg-gray-900">
+    <div className="min-h-dvh pt-3 pb-4 3xl:p-8 flex items-center flex-col justify-center bg-gray-100 dark:bg-gray-900">
       <h1 className="text-3xl font-semibold text-gray-950 dark:text-gray-100 text-center mb-3">
         Register
       </h1>
       <form
-        className="w-5/6 max-w-lg bg-white dark:bg-gray-800 px-6 pt-2.5 pb-2.5 lg:p-6 lg:max-w-xl rounded-md shadow-md"
+        className="w-5/6 max-w-lg bg-white dark:bg-gray-800 px-6 pt-2.5 pb-2.5 3xl:p-6 lg:max-w-xl rounded-md shadow-md"
         onSubmit={registerDataHandler}
       >
         {successMessage && (
