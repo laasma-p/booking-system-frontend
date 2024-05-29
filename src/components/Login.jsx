@@ -94,7 +94,8 @@ const Login = ({ setLoggedIn }) => {
           Log In
         </button>
         <p className="mt-4 text-center text-gray-950 dark:text-gray-100">
-          Do not have an account?{" "}
+          Do not have an account?
+          <br />
           <Link
             to="/register"
             className="text-blue-700 dark:text-blue-600 hover:text-blue-800 dark:hover:text-blue-700 transition-all"
