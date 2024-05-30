@@ -36,7 +36,7 @@ const BookATimeForm = () => {
           setHasActiveBooking(false);
         }
       } catch (error) {
-        console.error("Error checking active booking", error);
+        console.error("Error checking active booking:", error);
       }
     };
 
