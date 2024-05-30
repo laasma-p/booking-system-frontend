@@ -249,37 +249,43 @@ const BookATimeForm = () => {
             {renderCalendarDays()}
           </div>
         </div>
-        <div className="md:w-1/2 mt-4 lg:max-w-lg bg-white h-fit">
-          {selectedDate && (
-            <div className="w-full">
-              {bookings.map((booking) => {
-                return (
-                  <div
-                    key={booking.id}
-                    className={`border rounded-md m-5 p-4 mb-4 cursor-pointer transition-all ${
-                      selectedBooking === booking.id ? "bg-gray-200" : ""
-                    }`}
-                    onClick={() => selectingSlotHandler(booking.id)}
-                  >
-                    <p className="font-semibold">{booking.booking_name}</p>
-                    <p>Language: {booking.booking_language}</p>
-                    <p>Time: {booking.time}</p>
-                    <p>Available spots: {booking.available_spots}</p>
-                    {selectedBooking === booking.id && (
-                      <button
-                        type="button"
-                        className="bg-green-500 hover:bg-green-600 text-gray-100 mt-2 py-2 px-4 rounded-md transition-all"
-                        onClick={() => bookASlotHandler(booking.id)}
-                      >
-                        Book
-                      </button>
-                    )}
-                  </div>
-                );
-              })}
+        {selectedDate && bookings.length === 0 ? (
+          <p className="text-gray-950 text-lg pt-4">
+            No theory tests for selected day.
+          </p>
+        ) : (
+          selectedDate && (
+            <div className="md:w-1/2 mt-4 lg:max-w-lg bg-white h-fit">
+              <div className="w-full">
+                {bookings.map((booking) => {
+                  return (
+                    <div
+                      key={booking.id}
+                      className={`border rounded-md m-5 p-4 mb-4 cursor-pointer transition-all ${
+                        selectedBooking === booking.id ? "bg-gray-200" : ""
+                      }`}
+                      onClick={() => selectingSlotHandler(booking.id)}
+                    >
+                      <p className="font-semibold">{booking.booking_name}</p>
+                      <p>Language: {booking.booking_language}</p>
+                      <p>Time: {booking.time}</p>
+                      <p>Available spots: {booking.available_spots}</p>
+                      {selectedBooking === booking.id && (
+                        <button
+                          type="button"
+                          className="bg-green-500 hover:bg-green-600 text-gray-100 mt-2 py-2 px-4 rounded-md transition-all"
+                          onClick={() => bookASlotHandler(booking.id)}
+                        >
+                          Book
+                        </button>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          )}
-        </div>
+          )
+        )}
       </div>
     </>
   );
