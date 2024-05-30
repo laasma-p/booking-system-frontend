@@ -27,6 +27,8 @@ const Booking = () => {
 
         if (response.ok) {
           const data = await response.json();
+          data.date = formatDate(data.date);
+          data.time = formatTime(data.time);
           setBooking(data);
         } else {
           setBooking(null);
@@ -38,6 +40,16 @@ const Booking = () => {
 
     fetchBooking();
   }, []);
+
+  const formatDate = (dateString) => {
+    const [year, month, day] = dateString.split("-");
+    return `${day}.${month}.${year}`;
+  };
+
+  const formatTime = (timeString) => {
+    const [hours, minutes] = timeString.split(":");
+    return `${hours}:${minutes}`;
+  };
 
   const cancelBookingHandler = async () => {
     try {
@@ -86,8 +98,9 @@ const Booking = () => {
           key={booking.id}
           className="border max-w-lg rounded-md mx-4 p-4 transition-all"
         >
-          <p className="font-semibold">Booking Name: {booking.booking_name}</p>
+          <p className="font-semibold">{booking.booking_name}</p>
           <p>Language: {booking.booking_language}</p>
+          <p>Date: {booking.date}</p>
           <p>Time: {booking.time}</p>
           <button
             type="button"
