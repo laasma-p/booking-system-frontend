@@ -19,6 +19,11 @@ const BookATimeForm = () => {
     return () => clearTimeout(timeout);
   }, [bookingMessage, isBooked]);
 
+  const formatTime = (timeString) => {
+    const [hours, minutes] = timeString.split(":");
+    return `${hours}:${minutes}`;
+  };
+
   const dateClickHandler = async (date) => {
     setSelectedDate(date);
 
@@ -32,6 +37,9 @@ const BookATimeForm = () => {
       }
 
       const data = await response.json();
+      data.forEach((slot) => {
+        slot.time = formatTime(slot.time);
+      });
       setBookings(data);
     } catch (error) {
       console.error("Error fetching time slots", error);
