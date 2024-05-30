@@ -9,6 +9,7 @@ const BookATimeForm = () => {
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [bookingMessage, setBookingMessage] = useState("");
   const [isBooked, setIsBooked] = useState(false);
+  const [hasActiveBooking, setHasActiveBooking] = useState(false);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -18,6 +19,38 @@ const BookATimeForm = () => {
 
     return () => clearTimeout(timeout);
   }, [bookingMessage, isBooked]);
+
+  useEffect(() => {
+    const checkActiveBooking = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch("http://localhost:3000/current-booking", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          setHasActiveBooking(true);
+        } else {
+          setHasActiveBooking(false);
+        }
+      } catch (error) {
+        console.error("Error checking active booking", error);
+      }
+    };
+
+    checkActiveBooking();
+  }, []);
+
+  if (hasActiveBooking) {
+    return (
+      <div className="p-2 bg-red-400 text-red-950">
+        You already have an active booking. Please cancel it to make a new
+        booking.
+      </div>
+    );
+  }
 
   const formatTime = (timeString) => {
     const [hours, minutes] = timeString.split(":");
