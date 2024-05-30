@@ -154,6 +154,7 @@ const BookATimeForm = () => {
 
       const dateString = date.toDateString();
       const isPastDay = date < new Date(todaysYear, todaysMonth, todaysDate);
+      const isWeekend = date.getDay() === 6 || date.getDay() === 0;
 
       days.push(
         <div
@@ -161,11 +162,13 @@ const BookATimeForm = () => {
           className={`p-2 border h-16 cursor-pointer ${
             selectedDate === dateString
               ? "bg-blue-500 text-gray-100"
-              : isPastDay
+              : isPastDay || isWeekend
               ? "bg-gray-100 cursor-not-allowed"
               : "bg-white text-gray-950"
           }`}
-          onClick={() => !isPastDay && dateClickHandler(dateString)}
+          onClick={() =>
+            !isPastDay && !isWeekend && dateClickHandler(dateString)
+          }
         >
           {i}
         </div>
