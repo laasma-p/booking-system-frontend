@@ -21,13 +21,18 @@ const Register = () => {
 
   const validateField = (field, value) => {
     let error;
+
+    const capitalizedField = field
+      .replace("_", " ")
+      .replace(/^\w/, (capitalized) => capitalized.toUpperCase());
+
     switch (field) {
       case "first_name":
       case "last_name":
       case "address":
       case "city":
         if (!value) {
-          error = `${field.replace("_", " ")} is required.`;
+          error = `${capitalizedField} is required.`;
         }
         break;
       case "birthday":
