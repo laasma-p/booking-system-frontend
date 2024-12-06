@@ -24,11 +24,14 @@ const BookATimeForm = () => {
     const checkActiveBooking = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch("http://localhost:3000/current-booking", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          "http://localhost:3000/booking/current-booking",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (response.ok) {
           setHasActiveBooking(true);
@@ -62,7 +65,7 @@ const BookATimeForm = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/time-slots?date=${date}`
+        `http://localhost:3000/booking/time-slots?date=${date}`
       );
 
       if (!response.ok) {
@@ -82,15 +85,18 @@ const BookATimeForm = () => {
   const bookASlotHandler = async (bookingId) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:3000/book-a-time", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+      const response = await fetch(
+        "http://localhost:3000/booking/book-a-time",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
 
-        body: JSON.stringify({ bookingId }),
-      });
+          body: JSON.stringify({ bookingId }),
+        }
+      );
 
       if (response.ok) {
         setBookingMessage("Booking has been successfully made.");
