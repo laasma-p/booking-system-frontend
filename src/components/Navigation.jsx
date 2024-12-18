@@ -26,10 +26,10 @@ const Navigation = ({ setLoggedIn }) => {
   }, []);
 
   return (
-    <header className="w-full bg-blue-700 dark:bg-blue-600 flex transition-all">
-      <nav className="w-full mx-auto p-2 px-2 flex items-center">
-        <div className="w-16 h-16 flex justify-center items-center ml-2 mr-4">
-          <img src={logo} alt="Logo" />
+    <header className="w-full bg-blue-400 shadow-md">
+      <nav className="w-full max-w-screen-xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center space-x-2">
+          <img src={logo} alt="Logo" className="w-16 h-16" />
         </div>
 
         {windowWidth < 768 && (
@@ -52,77 +52,69 @@ const Navigation = ({ setLoggedIn }) => {
         )}
 
         {windowWidth >= 768 && (
-          <div>
-            <div className="w-10/12 border-red-200 text-lg space-x-6">
-              <NavLink
-                to="/booking"
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-gray-100"
-                    : "text-gray-950 hover:text-gray-100 transition-all"
-                }
-              >
-                Booking
-              </NavLink>
-              <NavLink
-                to="/book-a-time"
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-gray-100"
-                    : "text-gray-950 hover:text-gray-100 transition-all"
-                }
-              >
-                Book a time
-              </NavLink>
-            </div>
-            <div className="flex w-2/12 justify-end mr-2">
-              <button
-                className="text-gray-950 text-lg hover:text-gray-100 transition-all"
-                onClick={logoutHandler}
-              >
-                Log out
-              </button>
-            </div>
-          </div>
-        )}
-
-        {isMenuOpen && windowWidth < 768 && (
-          <div className="flex w-full">
-            <div className="w-10/12 border-red-200 text-lg space-x-6">
-              <NavLink
-                to="/booking"
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-gray-100"
-                    : "text-gray-950 hover:text-gray-100 transition-all"
-                }
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Booking
-              </NavLink>
-              <NavLink
-                to="/book-a-time"
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-gray-100"
-                    : "text-gray-950 hover:text-gray-100 transition-all"
-                }
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Book a time
-              </NavLink>
-            </div>
-            <div className="flex w-2/12 justify-end mr-2">
-              <button
-                className="text-gray-950 text-lg hover:text-gray-100 transition-all"
-                onClick={logoutHandler}
-              >
-                Log out
-              </button>
-            </div>
+          <div className="flex space-x-4 items-center text-lg">
+            <NavLink
+              to="/booking"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-gray-100"
+                  : "text-gray-950 hover:text-gray-100 transition-all"
+              }
+            >
+              Booking
+            </NavLink>
+            <NavLink
+              to="/book-a-time"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-gray-100"
+                  : "text-gray-950 hover:text-gray-100 transition-all"
+              }
+            >
+              Book a time
+            </NavLink>
+            <button
+              className="text-gray-950 hover:text-gray-100 transition-all"
+              onClick={logoutHandler}
+            >
+              Log out
+            </button>
           </div>
         )}
       </nav>
+
+      {isMenuOpen && windowWidth < 768 && (
+        <div className="flex flex-col bg-blue-400 py-2 px-4 space-y-2 text-lg">
+          <NavLink
+            to="/booking"
+            className={({ isActive }) =>
+              isActive
+                ? "text-gray-100"
+                : "text-gray-950 hover:text-gray-100 transition-all"
+            }
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Booking
+          </NavLink>
+          <NavLink
+            to="/book-a-time"
+            className={({ isActive }) =>
+              isActive
+                ? "text-gray-100"
+                : "text-gray-950 hover:text-gray-100 transition-all"
+            }
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Book a time
+          </NavLink>
+          <button
+            className="text-gray-950 hover:text-gray-100 text-left transition-all"
+            onClick={logoutHandler}
+          >
+            Log out
+          </button>
+        </div>
+      )}
     </header>
   );
 };
