@@ -89,7 +89,7 @@ const Booking = () => {
   };
 
   return (
-    <>
+    <div className="min-h-screen mx-auto px-4 py-6 bg-gray-50">
       {errorMessage && (
         <div className="p-2 bg-red-400 text-red-950">{errorMessage}</div>
       )}
@@ -102,9 +102,9 @@ const Booking = () => {
       {booking ? (
         <div
           key={booking.id}
-          className="border max-w-lg rounded-md mx-4 p-4 transition-all"
+          className="border max-w-lg rounded-md mx-4 p-4 transition-all bg-gray-100 text-gray-950"
         >
-          <p className="font-semibold">{booking.booking_name}</p>
+          <p className="font-semibold text-xl mb-2">{booking.booking_name}</p>
           <p>Language: {booking.booking_language}</p>
           <p>Date: {booking.date}</p>
           <p>Time: {booking.time}</p>
@@ -117,7 +117,7 @@ const Booking = () => {
           </button>
         </div>
       ) : (
-        <p className="pl-4">No bookings have been made.</p>
+        <p className="px-4 text-gray-950 text-lg">No booking has been made.</p>
       )}
 
       {isModalOpen && (
@@ -126,7 +126,7 @@ const Booking = () => {
           onClick={() => setIsModalOpen(false)}
         >
           <div
-            className="bg-white p-6 rounded-md shadow-md"
+            className="bg-gray-100 p-6 rounded-md shadow-md"
             onClick={(event) => event.stopPropagation()}
           >
             <h2 className="text-xl font-semibold mb-4">
@@ -150,7 +150,7 @@ const Booking = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
