@@ -224,77 +224,82 @@ const BookATimeForm = () => {
           {bookingMessage}
         </div>
       )}
-      <div className="w-full min-h-dvh px-4 flex flex-col md:flex-row justify-center md:justify-normal mx-auto md:mx-0 gap-4 bg-gray-100">
-        <div className="h-fit md:w-1/2 mt-4 p-6 lg:max-w-lg bg-white rounded-md shadow-md space-y-4">
-          <h1 className="text-3xl font-semibold text-gray-950 mb-6">
-            Book a time
-          </h1>
-          <div className="flex justify-between items-center mb-4">
-            <button
-              className="p-2 bg-blue-500 hover:bg-blue-600 text-gray-100 rounded-md transition-all"
-              onClick={() => changeMonthHandler(-1)}
-            >
-              Prev
-            </button>
-            <h2 className="text-xl font-semibold">
-              {currentMonth.toLocaleString("default", { month: "long" })}{" "}
-              {currentMonth.getFullYear()}
-            </h2>
-            <button
-              className="p-2 bg-blue-500 hover:bg-blue-600 text-gray-100 rounded-md transition-all"
-              onClick={() => changeMonthHandler(1)}
-            >
-              Next
-            </button>
-          </div>
-          <div className="grid grid-cols-7 gap-1">
-            {daysOfTheWeek.map((day, index) => {
-              return (
-                <div key={index} className="p-2 border h-16 bg-gray-200">
-                  {day}
-                </div>
-              );
-            })}
-            {renderCalendarDays()}
-          </div>
-        </div>
-        {selectedDate && bookings.length === 0 ? (
-          <p className="text-gray-950 text-lg pt-4">
-            No theory tests for selected day.
-          </p>
-        ) : (
-          selectedDate && (
-            <div className="md:w-1/2 mt-4 lg:max-w-lg bg-white h-fit">
-              <div className="w-full">
-                {bookings.map((booking) => {
-                  return (
-                    <div
-                      key={booking.id}
-                      className={`border rounded-md m-5 p-4 mb-4 cursor-pointer transition-all ${
-                        selectedBooking === booking.id ? "bg-gray-200" : ""
-                      }`}
-                      onClick={() => selectingSlotHandler(booking.id)}
-                    >
-                      <p className="font-semibold">{booking.booking_name}</p>
-                      <p>Language: {booking.booking_language}</p>
-                      <p>Time: {booking.time}</p>
-                      <p>Available spots: {booking.available_spots}</p>
-                      {selectedBooking === booking.id && (
-                        <button
-                          type="button"
-                          className="bg-green-500 hover:bg-green-600 text-gray-100 mt-2 py-2 px-4 rounded-md transition-all"
-                          onClick={() => bookASlotHandler(booking.id)}
-                        >
-                          Book
-                        </button>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+      <div className="w-full min-h-screen px-4 sm:px-6 py-6 sm:py-8 flex flex-col md:flex-row gap-6 bg-gray-50">
+        <div className="w-full max-w-screen-lg mx-auto flex flex-col md:flex-row items-start gap-6">
+          <div className="w-full md:w-1/2 p-4 sm:p-6 bg-gray-50 rounded-lg shadow-md h-fit">
+            <h1 className="text-2xl sm:text-3xl font-semibold text-gray-950 mb-4 text-center text-left">
+              Book a time
+            </h1>
+            <div className="flex justify-between items-center mb-4">
+              <button
+                className="p-2 bg-blue-500 hover:bg-blue-600 text-gray-100 rounded-md transition-all"
+                onClick={() => changeMonthHandler(-1)}
+              >
+                Prev
+              </button>
+              <h2 className="text-xl font-semibold">
+                {currentMonth.toLocaleString("default", { month: "long" })}{" "}
+                {currentMonth.getFullYear()}
+              </h2>
+              <button
+                className="p-2 bg-blue-500 hover:bg-blue-600 text-gray-100 rounded-md transition-all"
+                onClick={() => changeMonthHandler(1)}
+              >
+                Next
+              </button>
             </div>
-          )
-        )}
+            <div className="grid grid-cols-7 gap-1">
+              {daysOfTheWeek.map((day, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="p-2 text-center border h-16 bg-gray-200"
+                  >
+                    {day}
+                  </div>
+                );
+              })}
+              {renderCalendarDays()}
+            </div>
+          </div>
+          {selectedDate && bookings.length === 0 ? (
+            <p className="text-center text-gray-950 text-lg">
+              No theory tests for selected day.
+            </p>
+          ) : (
+            selectedDate && (
+              <div className="w-full md:w-1/2 p-4 sm:p-6 bg-gray-50 rounded-lg shadow-md h-fit">
+                <>
+                  {bookings.map((booking) => {
+                    return (
+                      <div
+                        key={booking.id}
+                        className={`border rounded-md p-4 mb-4 cursor-pointer transition-all ${
+                          selectedBooking === booking.id ? "bg-gray-200" : ""
+                        }`}
+                        onClick={() => selectingSlotHandler(booking.id)}
+                      >
+                        <p className="font-semibold">{booking.booking_name}</p>
+                        <p>Language: {booking.booking_language}</p>
+                        <p>Time: {booking.time}</p>
+                        <p>Available spots: {booking.available_spots}</p>
+                        {selectedBooking === booking.id && (
+                          <button
+                            type="button"
+                            className="bg-green-500 hover:bg-green-600 text-gray-100 mt-2 py-2 px-4 rounded-md transition-all"
+                            onClick={() => bookASlotHandler(booking.id)}
+                          >
+                            Book
+                          </button>
+                        )}
+                      </div>
+                    );
+                  })}
+                </>
+              </div>
+            )
+          )}
+        </div>
       </div>
     </>
   );
