@@ -26,7 +26,7 @@ const Navigation = ({ setLoggedIn }) => {
   }, []);
 
   return (
-    <header className="w-full bg-blue-400 shadow-md">
+    <header className="w-full bg-blue-400 shadow-md relative">
       <nav className="w-full max-w-screen-xl mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <img src={logo} alt="Logo" className="w-16 h-16" />
@@ -84,7 +84,7 @@ const Navigation = ({ setLoggedIn }) => {
       </nav>
 
       {isMenuOpen && windowWidth < 768 && (
-        <div className="flex flex-col bg-blue-400 py-2 px-4 space-y-2 text-lg">
+        <div className="absolute left-0 top-full w-full bg-blue-400 py-2 px-4 flex flex-col space-y-2 text-lg z-50">
           <NavLink
             to="/booking"
             className={({ isActive }) =>
