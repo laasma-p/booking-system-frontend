@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import logo from "../assets/logo.png";
 import { NavLink, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const Navigation = ({ setLoggedIn }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const navigate = useNavigate();
 
   const logoutHandler = () => {
@@ -15,6 +16,15 @@ const Navigation = ({ setLoggedIn }) => {
     navigate("/");
   };
 
+  useEffect(() => {
+    const resizeHandler = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", resizeHandler);
+    return () => window.removeEventListener("resize", resizeHandler);
+  }, []);
+
   return (
     <header className="w-full bg-blue-700 dark:bg-blue-600 flex transition-all">
       <nav className="w-full mx-auto p-2 px-2 flex items-center">
@@ -22,24 +32,26 @@ const Navigation = ({ setLoggedIn }) => {
           <img src={logo} alt="Logo" />
         </div>
 
-        <button onClick={() => setIsMenuOpen((prev) => !prev)}>
-          <svg
-            className="w-8 h-8"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            ></path>
-          </svg>
-        </button>
+        {windowWidth < 768 && (
+          <button onClick={() => setIsMenuOpen((prev) => !prev)}>
+            <svg
+              className="w-8 h-8"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
+            </svg>
+          </button>
+        )}
 
-        {isMenuOpen && (
+        {windowWidth >= 768 && (
           <div>
             <div className="w-10/12 border-red-200 text-lg space-x-6">
               <NavLink
@@ -74,38 +86,42 @@ const Navigation = ({ setLoggedIn }) => {
           </div>
         )}
 
-        <div className="flex w-full">
-          <div className="w-10/12 border-red-200 text-lg space-x-6">
-            <NavLink
-              to="/booking"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-gray-100"
-                  : "text-gray-950 hover:text-gray-100 transition-all"
-              }
-            >
-              Booking
-            </NavLink>
-            <NavLink
-              to="/book-a-time"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-gray-100"
-                  : "text-gray-950 hover:text-gray-100 transition-all"
-              }
-            >
-              Book a time
-            </NavLink>
+        {isMenuOpen && windowWidth < 768 && (
+          <div className="flex w-full">
+            <div className="w-10/12 border-red-200 text-lg space-x-6">
+              <NavLink
+                to="/booking"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-gray-100"
+                    : "text-gray-950 hover:text-gray-100 transition-all"
+                }
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Booking
+              </NavLink>
+              <NavLink
+                to="/book-a-time"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-gray-100"
+                    : "text-gray-950 hover:text-gray-100 transition-all"
+                }
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Book a time
+              </NavLink>
+            </div>
+            <div className="flex w-2/12 justify-end mr-2">
+              <button
+                className="text-gray-950 text-lg hover:text-gray-100 transition-all"
+                onClick={logoutHandler}
+              >
+                Log out
+              </button>
+            </div>
           </div>
-          <div className="flex w-2/12 justify-end mr-2">
-            <button
-              className="text-gray-950 text-lg hover:text-gray-100 transition-all"
-              onClick={logoutHandler}
-            >
-              Log out
-            </button>
-          </div>
-        </div>
+        )}
       </nav>
     </header>
   );
