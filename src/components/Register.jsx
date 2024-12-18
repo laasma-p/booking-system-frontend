@@ -151,85 +151,77 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-dvh pt-3 pb-4 3xl:p-8 flex items-center flex-col justify-center bg-gray-100 dark:bg-gray-900">
-      <h1 className="text-3xl font-semibold text-gray-950 dark:text-gray-100 text-center mb-3">
-        Register
-      </h1>
-      <form
-        className="w-5/6 max-w-lg bg-white dark:bg-gray-800 px-6 pt-2.5 pb-2.5 3xl:p-6 lg:max-w-xl rounded-md shadow-md"
-        onSubmit={registerDataHandler}
-      >
-        {successMessage && (
-          <p className="my-2 text-lg text-green-500 dark:text-green-400">
-            {successMessage}
-          </p>
-        )}
-        {errorMessage && (
-          <p className="my-2 text-lg text-red-500 dark:text-red-400">
-            {errorMessage}
-          </p>
-        )}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {[
-            { id: "first_name", label: "First Name" },
-            { id: "last_name", label: "Last Name" },
-            { id: "birthday", label: "Birthday", type: "date" },
-            { id: "email", label: "E-mail", type: "email" },
-            { id: "phone_number", label: "Phone Number" },
-            { id: "password", label: "Password", type: "password" },
-            {
-              id: "repeat_password",
-              label: "Repeat Password",
-              type: "password",
-            },
-            { id: "address", label: "Address" },
-            { id: "city", label: "City" },
-            { id: "post_code", label: "Post Code" },
-          ].map((field) => {
-            return (
-              <div key={field.id} className="flex flex-col space-y-2">
-                <label
-                  htmlFor={field.id}
-                  className="text-gray-950 dark:text-gray-100"
-                >
-                  {field.label}
-                </label>
-                <input
-                  type={field.type || "text"}
-                  id={field.id}
-                  value={registerData[field.id]}
-                  onChange={registerDataChangeHandler}
-                  onBlur={inputBlurHandler}
-                  className={`w-full text-gray-950 dark:text-gray-100 dark:bg-gray-700 px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 dark:focus:ring-blue-400 ${
-                    errors[field.id] ? "border-red-400 dark:border-red-500" : ""
-                  }`}
-                />
-                {errors[field.id] && (
-                  <span className="text-red-500 dark:text-red-400">
-                    {errors[field.id]}
-                  </span>
-                )}
-              </div>
-            );
-          })}
-        </div>
-        <button
-          type="submit"
-          className="w-full bg-blue-700 dark:bg-blue-600 hover:bg-blue-800 dark:hover:bg-blue-700 text-gray-100 mt-6 py-3 rounded-md md:text-lg lg:text-xl transition-all"
-        >
+    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-6 sm:py-12 bg-gray-50">
+      <div className="w-full max-w-2xl bg-gray-100 p-4 sm:p-6 md:p-8 rounded-lg shadow-lg border border-gray-300">
+        <h1 className="text-3xl font-semibold text-center text-gray-950 mb-6">
           Register
-        </button>
-        <p className="mt-4 text-center text-gray-950 dark:text-gray-100">
-          Already have an account?
-          <br />
-          <Link
-            to="/login"
-            className="text-blue-700 dark:text-blue-600 hover:text-blue-800 dark:hover:text-blue-700 transition-all"
+        </h1>
+        <form className="space-y-6" onSubmit={registerDataHandler}>
+          {successMessage && (
+            <p className="my-2 text-lg text-green-500">{successMessage}</p>
+          )}
+          {errorMessage && (
+            <p className="my-2 text-lg text-red-500">{errorMessage}</p>
+          )}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {[
+              { id: "first_name", label: "First Name" },
+              { id: "last_name", label: "Last Name" },
+              { id: "birthday", label: "Birthday", type: "date" },
+              { id: "email", label: "E-mail", type: "email" },
+              { id: "phone_number", label: "Phone Number" },
+              { id: "password", label: "Password", type: "password" },
+              {
+                id: "repeat_password",
+                label: "Repeat Password",
+                type: "password",
+              },
+              { id: "address", label: "Address" },
+              { id: "city", label: "City" },
+              { id: "post_code", label: "Post Code" },
+            ].map((field) => {
+              return (
+                <div key={field.id} className="flex flex-col space-y-2">
+                  <label htmlFor={field.id} className="text-gray-950">
+                    {field.label}
+                  </label>
+                  <input
+                    type={field.type || "text"}
+                    id={field.id}
+                    value={registerData[field.id]}
+                    onChange={registerDataChangeHandler}
+                    onBlur={inputBlurHandler}
+                    className={`w-full text-gray-950 px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 ${
+                      errors[field.id]
+                        ? "border-red-400 focus:ring-red-400"
+                        : ""
+                    }`}
+                  />
+                  {errors[field.id] && (
+                    <span className="text-red-500">{errors[field.id]}</span>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-700 hover:bg-blue-800 text-gray-100 mt-6 py-3 rounded-md md:text-lg lg:text-xl transition-all"
           >
-            Log in here
-          </Link>
-        </p>
-      </form>
+            Register
+          </button>
+          <p className="mt-4 text-center text-gray-950">
+            Already have an account?
+            <br />
+            <Link
+              to="/login"
+              className="text-blue-700 hover:text-blue-800 transition-all"
+            >
+              Log in here
+            </Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };
